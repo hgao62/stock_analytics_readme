@@ -2,7 +2,7 @@
 
 
 
-Lesson1: Self Learning
+### Lesson1: Self Learning
 1. what is a virtual environment
 https://www.youtube.com/watch?v=Y21OR1OPC9A
 
@@ -11,7 +11,7 @@ https://www.youtube.com/watch?v=SD7YNLv5Evc
 
 
 
-Lesson 2. self Learning(prep for class)
+### Lesson 2. self Learning(prep for class)
 1. create virtual environment by running command(finish watching video above what is a virtual environment)
 python -m venv venv
 
