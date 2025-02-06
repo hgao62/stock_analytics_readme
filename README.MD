@@ -13,8 +13,9 @@ https://www.youtube.com/watch?v=SD7YNLv5Evc
 
 ### Lesson 2. self Learning(prep for class)
 1. create virtual environment by running command(finish watching video above what is a virtual environment)
+```
 python -m venv venv
-
+```
 2. activate your virtual environment
 
 on Windows, run command below in your project root directory terminal(see my screenshot below)
