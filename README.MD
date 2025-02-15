@@ -227,8 +227,3 @@ def ticker_data_processing(
        # write to db
 ```
 
-
-### Lesson 3 set up database
-4. create a models.py inside sqlite folder
-
-
