@@ -179,24 +179,20 @@ def read_data_from_sqlite(model, filters: Dict[str,any]= None,date_range: Tuple[
     """
     Read data from a SQLite table using ORM model with optional filters and date range.
     
+    Parameters:
+        model: SQLAlchemy ORM model.
+        filters (Dict[str, any]): Dictionary of column-value pairs for filtering.
+        date_range (Tuple[str, str]): Tuple containing the start and end dates for filtering.
+        columns_to_select (Optional[List[str]]): List of columns to select.
+        is_distinct (Optional[bool]): Whether to select distinct rows.
+    
     Returns:
         pd.DataFrame: DataFrame containing the query results.
     """
-    session = Session()
-    query = session.query(model)
-    if date_range:
-        start_date, end_date = date_range
-        query = query.filter(model.Date.between(start_date, end_date))
-    
-    if filters:
-        for column, value in filters.items():
-            query = query.filter(getattr(model,column)==value)
-    
-    results = query.all()
-    df = pd.DataFrame([item.__dict__ for item in results])
-    df.drop(columns=["_sa_instance_state"], inplace=True, errors="ignore")
+   
     return df
 ```
+### Lesson 4
 5. create a function called ticker_data_processing in main.py
 ```python
 def ticker_data_processing(
