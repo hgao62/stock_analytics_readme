@@ -270,3 +270,140 @@ def upsert_data_in_sqlite(model, set_values: dict, filters: dict=None, date_rang
         session.close()
 ```
 
+
+### Lesson 5
+Create the calculate_returns function to calculate stock return
+```python
+def calculate_returns(
+    df: pd.DataFrame, periods: list, period_days, ticker: str, report_date: pd.Timestamp
+) -> dict:
+    """
+    Calculate returns for specified periods.
+
+    Parameters:
+        df (pd.DataFrame): DataFrame with an 'Adj Close' column.
+        periods (list): List of periods for which to calculate returns.
+        period_days (dict): Dictionary mapping periods to days.
+        ticker (str): Stock ticker symbol.
+
+    Returns:
+        dict: Dictionary of returns for each period.
+    """
+    returns = {"Ticker": ticker}
+
+    for period in periods:
+        try:
+            if period in ['1d', '3d', '5d']:
+                # Use trading days for 1d, 3d, 5d periods
+                start_date = report_date 
+                trading_days = 0 # <=
+                period_days = {'1d':1, '3d':3, '5d':5, '1y':365}
+                while trading_days < period_days[period]: 
+                    start_date -= timedelta(days=1) 
+                    if start_date.weekday() < 5:  # Monday to Friday are trading days
+                        trading_days += 1
+                start_date = start_date.date()
+            else:
+                start_date = (report_date - timedelta(days=period_days[period])).date()
+        except Exception as e:
+            logger.error(
+                f"Error calculating start_date for {ticker} during {period}: {e}"
+            )
+            print(f"Error calculating start_date for {ticker} during {period}: {e}")
+            returns[f"{period}_return"] = 0
+            continue  # Skip to the next period
+
+        # Convert start_date to pandas Timestamp and normalize
+        # start_date_normalized = pd.Timestamp(start_date).normalize().tz_localize('UTC')
+        # Normalize dates to ignore timezone and other attributes
+        report_date_data = df[df["Date"] == report_date.date()]["Close"]
+        if report_date_data.empty:
+            logger.error(f"No data found for {ticker} on {report_date.date()}")
+            print(f"No data found for {ticker} on {report_date.date()}")
+            raise Exception(f"No data found for {ticker} on {report_date.date()}")
+        else:
+            
+            report_date_price = report_date_data.values[0]
+        if start_date in df["Date"].values:
+            try:
+
+                lookback_date_price = df[df["Date"] == start_date]["Close"].values[0]
+                returns[f"{period}_return"] = round(
+                    (report_date_price / lookback_date_price - 1), 4
+                )
+            except Exception as e:
+                logger.error(
+                    f"Error calculating return for {ticker} during {period}: {e}"
+                )
+                print(f"Error calculating return for {ticker} during {period}: {e}")
+                returns[f"{period}_return"] = 0
+        else:
+            # If start date is not in the data, calculate the return using the closest available date
+            neighbour_days = get_neighbour_days(start_date)
+            for adj_lookback_date in neighbour_days:
+                if adj_lookback_date in df["Date"].values:
+                    try:
+                        lookback_date_price = df[df["Date"] == adj_lookback_date][
+                            "Close"
+                        ].values[0]
+                        returns[f"{period}_return"] = round(
+                            (report_date_price / lookback_date_price - 1), 4
+                        )
+                        break
+                    except Exception as e:
+                        logger.error(
+                            f"Error calculating return for {ticker} on {adj_lookback_date} during {period}: {e}"
+                        )
+                        returns[f"{period}_return"] = pd.NA
+                        continue
+            else:
+                returns[f"{period}_return"] = 0
+    return returns
+```
+
+
+### Lesson 6
+
+Finish top_gainers functions below
+```Python
+def get_top_gainers(
+    tickers: list,
+    lookback_periods: list,
+    mode: str,
+    all_tickers: List[str],
+    start_date: Optional[pd.Timestamp] = None,
+    end_date: Optional[pd.Timestamp] = None,
+    benchmark_against_sp500: bool = True,
+) -> pd.DataFrame:
+    logger.info(f"Running get_top_gainers in '{mode}' mode.")
+    """
+    Screen top gainers for a list of tickers over specified lookback periods,
+    including S&P 500 returns for each period.
+
+    Parameters:
+        tickers (list): List of stock tickers.
+        lookback_periods (list): List of periods for which to calculate returns.
+        mode (str): 'initial', 'daily', or 'rerun'
+        start_date (Optional[str]): Start date for rerun mode.
+        end_date (Optional[str]): End date for rerun mode.
+
+    Returns:
+        pd.DataFrame: DataFrame with returns for each ticker and time period,
+                      including S&P 500 returns.
+    """
+
+
+def enrich_with_sector_industry(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Enrich the DataFrame with sector and industry information.
+
+    Parameters:
+        df (pd.DataFrame): DataFrame with stock data.
+        info_path (str): Path to the CSV file containing sector and industry information.
+
+    Returns:
+        pd.DataFrame: Enriched DataFrame with sector and industry columns.
+    """
+
+
+```
