@@ -11,6 +11,8 @@
 下载链接：https://www.microsoft.com/en-ca/microsoft-teams/download-app
 6. obs(用来录频，便于自己复习回顾上课的内容）
 下载链接：https://obsproject.com/download
+7. sqlite studio
+下载链接：https://sqlitestudio.pl/
 
 把邮箱发我建repo, 添加collaborator
 
@@ -126,6 +128,14 @@ class TickerInfo(Base):
     Description = Column(String)
     Website = Column(String)
     LastUpdated = Column(Date)
+
+
+class SP500Holdings(Base):
+    __tablename__ = TableList.SP500_HOLDINGS
+    Ticker = Column(String, primary_key=True)
+    Sector = Column(String)
+    Industry = Column(String)
+    CompanyName = Column(String)
     
 ```
 
