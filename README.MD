@@ -632,7 +632,7 @@ def prepare_report_data(
 ```
 
 ```Lesson 8
-Finish generate_market_scanner_html_report function
+put HTML_TEMPLATE and generate_market_scanner_html_report below in generate_report.py
 HTML_TEMPLATE = """
 <!DOCTYPE html>
 <html lang="en">
@@ -731,7 +731,7 @@ def generate_market_scanner_html_report(data, report_date,report_name):
         f.write(html_content)
     return html_content
 
-
+Put generate_html_report in main.py
 
 def generate_html_report(df: pd.DataFrame,
     lookback_periods: list,
@@ -753,6 +753,9 @@ def generate_html_report(df: pd.DataFrame,
     html_content = generate_market_scanner_html_report(report_data,report_date_str,report_name)
     logger.info(f"Report generated successfully: {report_name}")
     return html_content
+
+
+Put generate_market_scanner_report in main.py
 
 def generate_market_scanner_report(
     sp500_tickers,
