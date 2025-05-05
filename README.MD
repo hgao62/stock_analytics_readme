@@ -11,6 +11,8 @@
 下载链接：https://www.microsoft.com/en-ca/microsoft-teams/download-app
 6. obs(用来录频，便于自己复习回顾上课的内容）
 下载链接：https://obsproject.com/download
+7. sqlite studio
+下载链接：https://sqlitestudio.pl/
 
 把邮箱发我建repo, 添加collaborator
 
