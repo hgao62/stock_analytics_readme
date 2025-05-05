@@ -126,6 +126,14 @@ class TickerInfo(Base):
     Description = Column(String)
     Website = Column(String)
     LastUpdated = Column(Date)
+
+
+class SP500Holdings(Base):
+    __tablename__ = TableList.SP500_HOLDINGS
+    Ticker = Column(String, primary_key=True)
+    Sector = Column(String)
+    Industry = Column(String)
+    CompanyName = Column(String)
     
 ```
 
