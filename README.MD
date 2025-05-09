@@ -827,10 +827,8 @@ import os
 import smtplib
 from dotenv import load_dotenv
 load_dotenv()
-EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")  # Your email address
-EMAIL_PASSWORD = os.getenv(
-    "EMAIL_PASSWORD"
-)  # Your email password or app-specific password
+EMAIL_ADDRESS =  # Your email address
+EMAIL_PASSWORD = # your email password copied from google setup
 from typing import List
 
 logger = logging.getLogger('stock_analytics')
