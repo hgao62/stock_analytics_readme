@@ -904,9 +904,9 @@ Go to https://myaccount.google.com/security
 put this function in utils.py
 
 ```python
-def get_all_tickers()->List[str]:
+def get_all_tickers(model)->List[str]:
 
-    all_tickers = read_data_from_sqlite(StocksPrice, columns_to_select=['Ticker'], is_distinct=True)
+    all_tickers = read_data_from_sqlite(model, columns_to_select=['Ticker'], is_distinct=True)
     return set(all_tickers["Ticker"].unique())
 ```
 
@@ -931,11 +931,11 @@ def main(start_date, end_date, mode, all_tickers=["AAPL", "MSFT"]):
         "1y",
     ]
 
-    sp500_tickers = read_tickers(SP500Holdings)
+    sp500_tickers = get_all_tickers(SP500Holdings)
 
     date_range = pd.date_range(start=start_date, end=end_date)
     if not all_tickers:
-        all_tickers = get_all_tickers()
+        all_tickers = get_all_tickers(StocksPrice)
     for current_date in date_range:
         generate_market_scanner_report(
             sp500_tickers,
