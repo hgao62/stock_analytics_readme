@@ -964,7 +964,7 @@ def get_all_tickers(model)->List[str]:
     all_tickers = read_data_from_sqlite(model, columns_to_select=['Ticker'], is_distinct=True)
     return set(all_tickers["Ticker"].unique())
 
-
+from datetime import  timedelta
 def get_neighbour_days(start_date) -> list[datetime]:
     logger.debug(f"Getting neighbour days for start_date {start_date}.")
     """
