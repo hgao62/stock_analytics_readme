@@ -21,8 +21,9 @@ def fetch_stock_data(
         pd.DataFrame: DataFrame with historical stock data.
     """
     stock = yf.Ticker(ticker)
-    df = stock.history('1d')
-    pe = stock.info['trailingPE']
+    df = stock.history(period)
+    print(df.head())
+    # pe = stock.info['trailingPE']
 
 
 if __name__ == "__main__":

@@ -854,7 +854,7 @@ def send_email(
     """
     msg = EmailMessage()
     msg["Subject"] = subject
-    msg["From"] = EMAIL_ADDRESS
+    msg["From"] = EMAIL_ADDRESS # replace with your email address
     msg["To"] = recipient
     msg.set_content(body)
     if html_content:
@@ -874,10 +874,30 @@ def send_email(
     # Send the email
     try:
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
-            smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+            smtp.login(EMAIL_ADDRESS, EMAIL_PASSWORD) # replace with your email address and password
             smtp.send_message(msg)
         logger.info("Email sent successfully.")
     except Exception as e:
         print(f"Error sending email: {EMAIL_ADDRESS} {EMAIL_PASSWORD}")
         logger.error(f"Error sending email: {e}")
 ```
+
+Set up gmail in python
+
+✅ Step-by-step Setup
+
+1. Enable "App Passwords" in Gmail
+   If your Google account has 2FA enabled (which it should):
+
+Go to https://myaccount.google.com/security
+
+2. Search "app passwords"(see screenshot below)
+   ![alt text](image-4.png)
+
+3. Create a name for your app(see screenshot below)
+
+![alt text](image-5.png)
+
+4. You’ll get a 16-character password (copy it — use it in place of your real password)(see screenshot below)
+
+![alt text](image-6.png)
