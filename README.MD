@@ -956,13 +956,27 @@ Go to https://myaccount.google.com/security
 
 ### Lesson 9
 
-put this function in utils.py
+put functions below in utils.py
 
 ```python
 def get_all_tickers(model)->List[str]:
 
     all_tickers = read_data_from_sqlite(model, columns_to_select=['Ticker'], is_distinct=True)
     return set(all_tickers["Ticker"].unique())
+
+
+def get_neighbour_days(start_date) -> list[datetime]:
+    logger.debug(f"Getting neighbour days for start_date {start_date}.")
+    """
+    Get the previous and next day of the start date
+    """
+    res = []
+    for i in range(1, 4):
+        adjust_start_date_backwards = start_date - timedelta(days=i)
+        adjust_start_date_forwards = start_date + timedelta(days=i)
+        res.append(adjust_start_date_backwards)
+        res.append(adjust_start_date_forwards)
+    return res
 ```
 
 add code below to main.py
