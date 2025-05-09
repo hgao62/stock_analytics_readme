@@ -983,7 +983,7 @@ add code below to main.py
 
 ```Python
 import traceback
-def main(start_date, end_date, mode, all_tickers=["AAPL", "MSFT"]):
+def main(start_date, end_date, mode, sp500_tickers=["AAPL", "MSFT"]):
     increase_thresholds = [0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 1, 2]
     decrease_thresholds = [0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 1, 2]
     lookback_periods = [
@@ -1000,12 +1000,11 @@ def main(start_date, end_date, mode, all_tickers=["AAPL", "MSFT"]):
         "6mo",
         "1y",
     ]
-
-    sp500_tickers = get_all_tickers(SP500Holdings)
+    if not sp500_tickers:
+        sp500_tickers = get_all_tickers(SP500Holdings)
 
     date_range = pd.date_range(start=start_date, end=end_date)
-    if not all_tickers:
-        all_tickers = get_all_tickers(StocksPrice)
+    all_tickers = get_all_tickers(StocksPrice)
     for current_date in date_range:
         generate_market_scanner_report(
             sp500_tickers,
