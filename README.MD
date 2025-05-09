@@ -899,3 +899,70 @@ Go to https://myaccount.google.com/security
 4. You’ll get a 16-character password (copy it — use it in place of your real password)(see screenshot below)
 
 ![alt text](image-6.png)
+
+### Lesson 9
+
+put this function in utils.py
+
+```python
+def get_all_tickers()->List[str]:
+
+    all_tickers = read_data_from_sqlite(StocksPrice, columns_to_select=['Ticker'], is_distinct=True)
+    return set(all_tickers["Ticker"].unique())
+```
+
+add code below to main.py
+
+```Python
+def main(start_date, end_date, mode, all_tickers=["AAPL", "MSFT"]):
+    increase_thresholds = [0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 1, 2]
+    decrease_thresholds = [0.05, 0.1, 0.2, 0.3, 0.4, 0.5, 1, 2]
+    lookback_periods = [
+        "1d",
+        "3d",
+        "5d",
+        "14d",
+        "21d",
+        "1mo",
+        "2mo",
+        "3mo",
+        "4mo",
+        "5mo",
+        "6mo",
+        "1y",
+    ]
+
+    sp500_tickers = read_tickers(SP500Holdings)
+
+    date_range = pd.date_range(start=start_date, end=end_date)
+    if not all_tickers:
+        all_tickers = get_all_tickers()
+    for current_date in date_range:
+        generate_market_scanner_report(
+            sp500_tickers,
+            lookback_periods,
+            increase_thresholds,
+            decrease_thresholds,
+            mode,
+            current_date,
+            report_name="SP500 Market Scanner",
+            all_tickers=all_tickers,
+            format='html'
+        )
+
+
+
+
+
+# TODO 1. add sector to the report
+# TODO 2. add company name to the report
+
+if __name__ == "__main__":
+
+
+    try:
+        main("2023-10-01", "2023-10-31", "rerun")
+    except Exception as e:
+        traceback_str = traceback.format_exc()
+
+```
