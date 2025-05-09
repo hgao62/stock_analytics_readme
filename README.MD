@@ -762,16 +762,15 @@ def generate_market_scanner_report(
     lookback_periods: list,
     increase_thresholds: list,
     decrease_thresholds: list,
-    args,
+    mode,
     current_date,
     report_name: str,
     all_tickers: List[str],
-    format :str ='html'
 ) -> None:
     top_gainers = get_top_gainers(
         sp500_tickers,
         lookback_periods,
-        mode=args.mode,
+        mode=mode,
         all_tickers=all_tickers,
         start_date=current_date,
         end_date=current_date + timedelta(days=1),
@@ -947,7 +946,6 @@ def main(start_date, end_date, mode, all_tickers=["AAPL", "MSFT"]):
             current_date,
             report_name="SP500 Market Scanner",
             all_tickers=all_tickers,
-            format='html'
         )
 
 
